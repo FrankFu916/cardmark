@@ -32,7 +32,9 @@ if (mode === '--check') {
   if (!process.env.NODE_AUTH_TOKEN) {
     // not fatal: the GitHub Release should still be created; npm publish can
     // be re-run once the NPM_TOKEN secret is configured
-    console.warn('NODE_AUTH_TOKEN is not set — skipping npm publish (configure the NPM_TOKEN repo secret to enable it)')
+    console.warn(
+      'NODE_AUTH_TOKEN is not set — skipping npm publish (configure the NPM_TOKEN repo secret to enable it)',
+    )
     process.exit(0)
   }
   run(`npm publish --access public --provenance`, {
