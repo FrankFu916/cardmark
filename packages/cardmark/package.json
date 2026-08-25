@@ -1,11 +1,11 @@
 {
   "name": "cardmark",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Turn Markdown into beautiful shareable cards. Pure SVG rendering, zero browser required.",
   "type": "module",
   "license": "MIT",
   "author": "The CardMark Authors",
-  "homepage": "https://github.com/FrankFu916/cardmark#readme",
+  "homepage": "https://frankfu916.github.io/cardmark/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FrankFu916/cardmark.git"
@@ -24,7 +24,18 @@
     "og-image",
     "satori",
     "code-to-image",
-    "cli"
+    "markdown-to-image",
+    "open-graph",
+    "twitter-card",
+    "xiaohongshu",
+    "cjk",
+    "chinese",
+    "japanese",
+    "korean",
+    "emoji",
+    "typography",
+    "cli",
+    "generator"
   ],
   "engines": {
     "node": ">=20"
@@ -46,7 +57,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "bin": {
     "cardmark": "./dist/cli.js"
