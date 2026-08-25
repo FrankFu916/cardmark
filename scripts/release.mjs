@@ -30,10 +30,11 @@ if (mode === '--check') {
   console.log('release check ok: all dist artifacts present')
 } else if (mode === '--publish') {
   if (!process.env.NODE_AUTH_TOKEN) {
-    console.error('NODE_AUTH_TOKEN is not set; skipping publish')
-    process.exit(1)
+    // not fatal: the GitHub Release should still be created; npm publish can
+    // be re-run once the NPM_TOKEN secret is configured
+    console.warn('NODE_AUTH_TOKEN is not set — skipping npm publish (configure the NPM_TOKEN repo secret to enable it)')
+    process.exit(0)
   }
-  // npm's prepublishOnly runs build+test again; keep it for safety on CI
   run(`npm publish --access public --provenance`, {
     env: { ...process.env, NODE_AUTH_TOKEN: process.env.NODE_AUTH_TOKEN },
   })
