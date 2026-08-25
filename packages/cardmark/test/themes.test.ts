@@ -13,7 +13,12 @@ describe('resolveTheme', () => {
   })
 
   it('merges partial custom themes over midnight base', () => {
-    const custom: ThemeInput = { id: 'brand', label: 'Brand', appearance: 'dark', accent: '#ff0000' }
+    const custom: ThemeInput = {
+      id: 'brand',
+      label: 'Brand',
+      appearance: 'dark',
+      accent: '#ff0000',
+    }
     const t = resolveTheme(custom)
     expect(t.accent).toBe('#ff0000')
     expect(t.text).toBe(THEMES.midnight.text) // inherited

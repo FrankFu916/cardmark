@@ -63,8 +63,8 @@ Options:
 import { renderPng, renderCard } from 'cardmark'
 
 const png = await renderPng('# Hello 🌏\n\n中文 **and** english.', {
-  theme: 'midnight',   // theme id, or a partial custom theme object
-  size: 'og',          // preset id, or { width, height }
+  theme: 'midnight', // theme id, or a partial custom theme object
+  size: 'og', // preset id, or { width, height }
   byline: '@you',
 })
 
@@ -113,25 +113,25 @@ size switchers, PNG/SVG download, copy-to-clipboard.
 
 ## Theme gallery
 
-| | | |
-|---|---|---|
-| ![aurora](assets/theme-aurora.png) | ![matcha](assets/theme-matcha.png) | ![midnight](assets/theme-midnight.png) |
-| ![paper](assets/theme-paper.png) | ![peach](assets/theme-peach.png) | ![ocean](assets/theme-ocean.png) |
-| ![noir](assets/theme-noir.png) | ![blossom](assets/theme-blossom.png) | ![ink](assets/theme-ink.png) |
+|                                    |                                      |                                        |
+| ---------------------------------- | ------------------------------------ | -------------------------------------- |
+| ![aurora](assets/theme-aurora.png) | ![matcha](assets/theme-matcha.png)   | ![midnight](assets/theme-midnight.png) |
+| ![paper](assets/theme-paper.png)   | ![peach](assets/theme-peach.png)     | ![ocean](assets/theme-ocean.png)       |
+| ![noir](assets/theme-noir.png)     | ![blossom](assets/theme-blossom.png) | ![ink](assets/theme-ink.png)           |
 
 `classic` and all sizes: see [`assets/`](assets/). Regenerate everything with the
 snippet in [`examples/`](examples/).
 
 ## Size presets
 
-| preset | px | use for |
-|---|---|---|
-| `x` | 1200×1350 | X/Twitter image posts |
-| `og` | 1200×630 | Open Graph / link cards |
-| `square` | 1080×1080 | generic square posts |
-| `xiaohongshu` | 1080×1440 | 小红书 image notes |
-| `instagram` | 1080×1350 | Instagram portrait |
-| `story` | 1080×1920 | Stories / Reels / 短视频封面 |
+| preset        | px        | use for                      |
+| ------------- | --------- | ---------------------------- |
+| `x`           | 1200×1350 | X/Twitter image posts        |
+| `og`          | 1200×630  | Open Graph / link cards      |
+| `square`      | 1080×1080 | generic square posts         |
+| `xiaohongshu` | 1080×1440 | 小红书 image notes           |
+| `instagram`   | 1080×1350 | Instagram portrait           |
+| `story`       | 1080×1920 | Stories / Reels / 短视频封面 |
 
 Any custom size works too: `-s 1200x900`.
 

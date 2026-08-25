@@ -4,13 +4,7 @@
  * rasterization is left to a <canvas> in your app (see web/src/App.tsx).
  */
 export { renderCard, renderPng, buildTemplate, type FontData } from './render-core.js'
-export {
-  FONT_PRESETS,
-  FONT_SETS,
-  loadFontPreset,
-  loadFontSet,
-  emojiAssetLoader,
-} from './fonts.js'
+export { FONT_PRESETS, FONT_SETS, loadFontPreset, loadFontSet, emojiAssetLoader } from './fonts.js'
 export { parseMarkdown, splitCards } from './parse.js'
 export { THEMES, SIZES, resolveTheme, resolveSize, SIZE_ALIASES } from './themes.js'
 export type {

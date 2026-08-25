@@ -139,11 +139,7 @@ export default function App() {
               className={`chip ${themeId === id ? 'active' : ''}`}
               onClick={() => setThemeId(id)}
             >
-              <span
-                className="dot"
-                style={{ background: THEMES[id].accent }}
-                aria-hidden
-              />
+              <span className="dot" style={{ background: THEMES[id].accent }} aria-hidden />
               {THEMES[id].label}
             </button>
           ))}
@@ -188,7 +184,9 @@ export default function App() {
 
         <section className="preview-pane">
           <div className="pane-header">
-            <span>Preview · {size.width}×{size.height}</span>
+            <span>
+              Preview · {size.width}×{size.height}
+            </span>
             <div className="actions">
               <button onClick={copyPng}>{copied === 'png' ? '✓ copied' : 'Copy PNG'}</button>
               <button onClick={downloadPng}>PNG</button>

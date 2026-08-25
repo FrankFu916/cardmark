@@ -185,7 +185,9 @@ async function readSystemFile(path: string): Promise<Uint8Array | null> {
 export async function loadFontPreset(id: string): Promise<LoadedFont> {
   const preset = FONT_PRESETS[id]
   if (!preset) {
-    throw new Error(`Unknown font preset "${id}". Available: ${Object.keys(FONT_PRESETS).join(', ')}.`)
+    throw new Error(
+      `Unknown font preset "${id}". Available: ${Object.keys(FONT_PRESETS).join(', ')}.`,
+    )
   }
   const mem = memoryCache.get(`preset:${id}`)
   if (mem) return { ...mem, name: preset.name, weight: preset.weight }
@@ -229,7 +231,9 @@ const TWEMOJI_BASE = 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/
 function twemojiCode(segment: string): string {
   // Strip VS16 unless the glyph is nothing but VS16 — matches Twemoji file naming.
   const chars = [...segment]
-  const hexes = chars.map((c) => c.codePointAt(0)!.toString(16)).filter((hex) => hex !== 'fe0f' || chars.length === 1)
+  const hexes = chars
+    .map((c) => c.codePointAt(0)!.toString(16))
+    .filter((hex) => hex !== 'fe0f' || chars.length === 1)
   return hexes.join('-')
 }
 

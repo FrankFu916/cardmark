@@ -83,7 +83,11 @@ export function parseMarkdown(source: string): Block[] {
   for (const tok of tokens) {
     switch (tok.type) {
       case 'heading':
-        blocks.push({ kind: 'heading', level: tok.depth, text: flatten(tok.tokens ?? []) || tok.text })
+        blocks.push({
+          kind: 'heading',
+          level: tok.depth,
+          text: flatten(tok.tokens ?? []) || tok.text,
+        })
         break
       case 'paragraph':
         blocks.push({ kind: 'paragraph', inlines: toInline(tok.tokens ?? []) })
