@@ -8,14 +8,16 @@ CardMark renders your Markdown notes as polished social-ready images (PNG/SVG) w
   <img src="assets/hero.png" alt="CardMark demo card" width="480">
 </p>
 
+**🚀 Try it online — no install:** [live editor on GitHub Pages](https://frankfu916.github.io/cardmark/)
+
 ## Why CardMark
 
 Most notes die in a `.md` file. CardMark turns them into images people actually share — for Weibo/Xiaohongshu posts, X/Twitter threads, Open Graph cards, or team wikis.
 
 - **10 hand-tuned themes** — aurora, midnight, paper, matcha, peach, noir, ocean, blossom, classic, ink
 - **6 social size presets** — X post, Open Graph, square, Xiaohongshu 3:4, Instagram 4:5, Story 9:16 (or any custom `WxH`)
-- **CJK done right** — Noto Sans SC / Noto Serif SC downloaded on demand and cached; Chinese, Japanese, Korean text renders correctly out of the box
-- **Emoji as art** — emoji render as inline Twemoji vector images, so they survive PNG export everywhere
+- **9 font sets, CJK全覆盖** — Noto Sans/Serif SC, Noto Sans/Serif JP, Noto Sans/Serif KR, JetBrains Mono, Times New Roman, Georgia, Inter; downloaded on demand and cached. Chinese, Japanese, Korean all render correctly
+- **Emoji as art** — every emoji (flags, ZWJ sequences, keycaps) renders as inline Twemoji vectors, so it survives PNG export everywhere
 - **Auto-fit layout** — long notes shrink to fit short formats instead of clipping
 - **Split mode** — one file with `---` fences becomes a numbered card deck
 - **Pure rendering** — text becomes vector paths; no headless browser, no Puppeteer, no font installation
@@ -51,8 +53,10 @@ Options:
       --split           split on --- / === fences into numbered cards
       --no-footer
   -F, --font <path>     embed an extra .ttf/.otf/.woff (repeatable)
+      --font-set <name> override the theme's font set (see --list-font-sets)
       --list-themes     list themes and exit
       --list-sizes      list size presets and exit
+      --list-font-sets  list font sets and exit
   -h, --help            show help
   -v, --version
 ```
@@ -74,6 +78,27 @@ const { svg } = await renderCard('# Hello', { theme: 'matcha' })
 Fonts resolve automatically: the theme's font set is downloaded from pinned CDNs on
 first use, then cached in `~/.cache/cardmark/fonts/` (override with
 `CARDMARK_CACHE_DIR`). Offline? CardMark falls back to host system fonts.
+
+### Font sets
+
+Pick the typography that matches your content with `--font-set` (or `fontSet` in
+`renderCard` options — it overrides the theme default):
+
+| font set         | faces                            | good for           |
+| ---------------- | -------------------------------- | ------------------ |
+| `default`        | Noto Sans SC + JetBrains Mono    | 中文 (default)     |
+| `serif`          | Noto Serif SC + JetBrains Mono   | 中文正文/文艺风    |
+| `latin`          | Inter + Georgia + JetBrains Mono | English posts      |
+| `editorial`      | Times New Roman + Noto Serif SC  | 杂志/社论风        |
+| `japanese`       | Noto Sans JP + JetBrains Mono    | 日本語             |
+| `japanese-serif` | Noto Serif JP + JetBrains Mono   | 日本語・明朝       |
+| `korean`         | Noto Sans KR + JetBrains Mono    | 한국어             |
+| `korean-serif`   | Noto Serif KR + JetBrains Mono   | 한국어·명조        |
+| `cjk-all`        | SC + JP + KR together            | 混排（中日韩同屏） |
+
+```bash
+cardmark japanese.md --font-set japanese -f png -o card.png
+```
 
 ### Custom themes
 
@@ -106,10 +131,13 @@ const { svg } = await renderCard(md, { theme: 'ocean', fonts })
 ```
 
 Rasterize to PNG by drawing the SVG onto a `<canvas>` — see
-[`web/src/App.tsx`](web/src/App.tsx) for a complete working editor (~150 lines).
+[`web/src/App.tsx`](web/src/App.tsx) for a complete working editor (~180 lines).
 
-The editor in [`web/`](web) is a ready-to-deploy Vite app: live preview, theme and
-size switchers, PNG/SVG download, copy-to-clipboard.
+The editor in [`web/`](web) is a ready-to-deploy Vite app — **deployed live at
+[frankfu916.github.io/cardmark](https://frankfu916.github.io/cardmark/)** — with
+live preview, theme/size/font-set switchers, PNG/SVG download, and
+copy-to-clipboard. It redeploys automatically on every push to `main` via
+GitHub Actions (see [`pages.yml`](.github/workflows/pages.yml)).
 
 ## Theme gallery
 
@@ -157,9 +185,10 @@ npm run dev:web   # local editor at localhost:5173
 
 ## Roadmap
 
+- [x] Multi-language font sets (JP / KR / CJK-all)
+- [x] Online editor (GitHub Pages)
 - [ ] Syntax-highlighted code blocks
 - [ ] Image embeds (`![alt](url)`)
-- [ ] More font sets (Korean, Japanese-specific faces)
 - [ ] GitHub Action for rendering cards in CI
 
 ## Contributing

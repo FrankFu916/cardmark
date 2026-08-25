@@ -1,6 +1,6 @@
 {
   "name": "cardmark",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Turn Markdown into beautiful shareable cards. Pure SVG rendering, zero browser required.",
   "type": "module",
   "license": "MIT",
