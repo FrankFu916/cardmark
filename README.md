@@ -25,7 +25,7 @@ Most notes die in a `.md` file. CardMark turns them into images people actually 
 
 ```bash
 # one-off, no install
-npx cardmark note.md -t matcha -o card.png
+npx cardmark note.md -t matcha -f png -o card.png
 
 # or install globally
 npm i -g cardmark
@@ -44,8 +44,8 @@ Options:
   -t, --theme <name>    aurora | midnight | paper | matcha | peach | noir | ocean |
                         blossom | classic | ink            (default: aurora)
   -s, --size <preset>   x | og | square | xiaohongshu | instagram | story | 1200x900
-  -f, --format <fmt>    png | svg                          (default: png)
-  -o, --out <file>      output file (default: <input>.png)
+  -f, --format <fmt>    svg | png                          (default: svg)
+  -o, --out <file>      output file (stdout for svg; required for png)
   -b, --byline <text>   footer text, e.g. @yourhandle
   -p, --padding <sm|md|lg|xl>
       --split           split on --- / === fences into numbered cards
