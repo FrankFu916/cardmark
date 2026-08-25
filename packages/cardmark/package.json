@@ -1,0 +1,71 @@
+{
+  "name": "cardmark",
+  "version": "0.1.0",
+  "description": "Turn Markdown into beautiful shareable cards. Pure SVG rendering, zero browser required.",
+  "type": "module",
+  "license": "MIT",
+  "author": "The CardMark Authors",
+  "homepage": "https://github.com/FrankFu916/cardmark#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankFu916/cardmark.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FrankFu916/cardmark/issues"
+  },
+  "keywords": [
+    "markdown",
+    "card",
+    "image",
+    "svg",
+    "png",
+    "social",
+    "share",
+    "og-image",
+    "satori",
+    "code-to-image",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
+    },
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/themes/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "cardmark": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && npm run bundle:deps",
+    "bundle:deps": "node ../../scripts/bundle-runtime-deps.mjs",
+    "test": "npm run test:run --silent",
+    "test:run": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "marked": "^16.0.0",
+    "satori": "^0.13.1"
+  },
+  "devDependencies": {
+    "@types/marked": "^6.0.0",
+    "vitest": "^3.2.0"
+  }
+}

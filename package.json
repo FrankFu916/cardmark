@@ -1,0 +1,39 @@
+{
+  "name": "cardmark",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Turn Markdown into beautiful shareable cards — Web, CLI and library.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "npm@11",
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -b packages/cardmark",
+    "dev:web": "npm run dev --workspace=@cardmark/web",
+    "build:web": "npm run build --workspace=@cardmark/web",
+    "release": "npm run build && npm run test && node scripts/release.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "@types/node": "^24.0.0",
+    "@typescript-eslint/parser": "^8.35.0",
+    "eslint": "^9.30.0",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.0",
+    "typescript": "^5.8.0",
+    "typescript-eslint": "^8.35.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "web"
+  ],
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
