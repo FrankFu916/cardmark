@@ -48,4 +48,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm install
+      # web imports cardmark/browser, whose types live in the core dist/
+      - run: npm run build --workspace=cardmark
       - run: npm run build:web
