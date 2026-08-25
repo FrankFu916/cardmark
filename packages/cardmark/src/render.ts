@@ -84,8 +84,9 @@ async function resolveFonts(options: RenderOptions): Promise<FontData[]> {
   const theme = resolveTheme(options.theme)
   let fonts = options.fonts ?? []
   if (fonts.length === 0) {
+    const setId = options.fontSet ?? theme.fontSet ?? 'default'
     try {
-      fonts = await loadFontSet(theme.fontSet ?? 'default')
+      fonts = await loadFontSet(setId)
     } catch {
       // offline or CDN unreachable: fall back to host fonts
       fonts = await loadSystemFonts()

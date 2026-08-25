@@ -110,6 +110,54 @@ export const FONT_PRESETS: Record<string, FontPreset> = {
     role: 'sans',
     coverage: 'latin',
   },
+  'noto-sans-jp': {
+    id: 'noto-sans-jp',
+    name: 'Noto Sans JP',
+    weight: 400,
+    url: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-jp@5/files/noto-sans-jp-japanese-400-normal.woff',
+    role: 'sans',
+    coverage: 'cjk',
+  },
+  'noto-sans-jp-bold': {
+    id: 'noto-sans-jp-bold',
+    name: 'Noto Sans JP',
+    weight: 700,
+    url: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-jp@5/files/noto-sans-jp-japanese-700-normal.woff',
+    role: 'sans',
+    coverage: 'cjk',
+  },
+  'noto-serif-jp': {
+    id: 'noto-serif-jp',
+    name: 'Noto Serif JP',
+    weight: 400,
+    url: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-jp@5/files/noto-serif-jp-japanese-400-normal.woff',
+    role: 'serif',
+    coverage: 'cjk',
+  },
+  'noto-sans-kr': {
+    id: 'noto-sans-kr',
+    name: 'Noto Sans KR',
+    weight: 400,
+    url: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-kr@5/files/noto-sans-kr-korean-400-normal.woff',
+    role: 'sans',
+    coverage: 'cjk',
+  },
+  'noto-sans-kr-bold': {
+    id: 'noto-sans-kr-bold',
+    name: 'Noto Sans KR',
+    weight: 700,
+    url: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-kr@5/files/noto-sans-kr-korean-700-normal.woff',
+    role: 'sans',
+    coverage: 'cjk',
+  },
+  'noto-serif-kr': {
+    id: 'noto-serif-kr',
+    name: 'Noto Serif KR',
+    weight: 400,
+    url: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-kr@5/files/noto-serif-kr-korean-400-normal.woff',
+    role: 'serif',
+    coverage: 'cjk',
+  },
 }
 
 /** Bundles commonly combined presets. */
@@ -118,6 +166,31 @@ export const FONT_SETS: Record<string, string[]> = {
   serif: ['noto-serif-sc', 'noto-serif-sc-bold', 'jetbrains-mono'],
   latin: ['inter', 'georgia', 'jetbrains-mono'],
   editorial: ['times-new-roman', 'noto-serif-sc', 'jetbrains-mono'],
+  japanese: ['noto-sans-jp', 'noto-sans-jp-bold', 'jetbrains-mono'],
+  'japanese-serif': ['noto-serif-jp', 'noto-serif-jp', 'jetbrains-mono'],
+  korean: ['noto-sans-kr', 'noto-sans-kr-bold', 'jetbrains-mono'],
+  'korean-serif': ['noto-serif-kr', 'noto-serif-kr', 'jetbrains-mono'],
+  // broadest CJK coverage: SC first for simplified glyphs, JP fills kana, KR fills hangul
+  'cjk-all': [
+    'noto-sans-sc',
+    'noto-sans-sc-bold',
+    'noto-sans-jp',
+    'noto-sans-kr',
+    'jetbrains-mono',
+  ],
+}
+
+/** Human-readable font set descriptions for UIs and --list-font-sets. */
+export const FONT_SET_LABELS: Record<string, string> = {
+  default: 'Sans (SC) — Noto Sans SC + JetBrains Mono',
+  serif: 'Serif (SC) — Noto Serif SC + JetBrains Mono',
+  latin: 'Latin — Inter + Georgia + JetBrains Mono',
+  editorial: 'Editorial — Times New Roman + Noto Serif SC + JetBrains Mono',
+  japanese: '日本語 — Noto Sans JP + JetBrains Mono',
+  'japanese-serif': '日本語 Serif — Noto Serif JP + JetBrains Mono',
+  korean: '한국어 — Noto Sans KR + JetBrains Mono',
+  'korean-serif': '한국어 Serif — Noto Serif KR + JetBrains Mono',
+  'cjk-all': 'CJK 全覆盖 — SC + JP + KR + JetBrains Mono',
 }
 
 const memoryCache = new Map<string, LoadedFont>()
@@ -237,9 +310,14 @@ function twemojiCode(segment: string): string {
   return hexes.join('-')
 }
 
+/** Public alias for tests and tooling: the Twemoji file code for one glyph. */
+export const twemojiCodeFor = twemojiCode
+
 export function isEmojiSegment(language: string, segment: string): boolean {
   if (language !== 'emoji') return false
-  return /\p{Extended_Pictographic}|\u200D|\uFE0F/u.test(segment)
+  // Regional-indicator pairs (flags) are not Extended_Pictographic, so test
+  // for them explicitly alongside pictographics, ZWJ and variation selectors.
+  return /\p{Extended_Pictographic}|\p{RI}|\u200D|\uFE0F/u.test(segment)
 }
 
 const emojiMemory = new Map<string, string>()

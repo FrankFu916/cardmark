@@ -1,17 +1,25 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { renderCard, loadFontSet, THEMES, SIZES, type FontData } from 'cardmark/browser'
+import {
+  renderCard,
+  loadFontSet,
+  THEMES,
+  SIZES,
+  FONT_SETS,
+  FONT_SET_LABELS,
+  type FontData,
+} from 'cardmark/browser'
 
 const DEFAULT_MD = `# Ship your ideas 🚀
 
 Paste **Markdown** on the left — get a share-ready card on the right.
 
 - 10 beautiful themes
+- 9 font sets · 中日韩全覆盖
 - 6 social platform sizes
 - PNG · SVG · copy to clipboard
-- CJK + emoji out of the box
 
 \`\`\`bash
-npx cardmark note.md -t matcha -o card.png
+npx cardmark note.md -t matcha -f png -o card.png
 \`\`\`
 
 > Cards so nice, you'll want to post them twice.
@@ -19,34 +27,42 @@ npx cardmark note.md -t matcha -o card.png
 
 const THEME_IDS = Object.keys(THEMES)
 const SIZE_IDS = Object.keys(SIZES)
+const FONT_SET_IDS = Object.keys(FONT_SETS)
 
 export default function App() {
   const [md, setMd] = useState(DEFAULT_MD)
   const [themeId, setThemeId] = useState('aurora')
   const [sizeId, setSizeId] = useState('x')
+  const [fontSetId, setFontSetId] = useState('default')
   const [byline, setByline] = useState('')
   const [svg, setSvg] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState<'none' | 'png' | 'svg'>('none')
   const [fonts, setFonts] = useState<FontData[]>([])
+  const [fontsLoading, setFontsLoading] = useState(false)
   const previewRef = useRef<HTMLDivElement>(null)
 
   const size = SIZES[sizeId]
 
-  // Load the theme's font faces once (CDN woff, cached in memory by cardmark).
+  // Load the selected font set (CDN woff, cached in memory by cardmark).
   useEffect(() => {
     let alive = true
-    loadFontSet('default')
+    setFontsLoading(true)
+    loadFontSet(fontSetId)
       .then((fonts) => {
-        if (alive) setFonts(fonts)
+        if (alive) {
+          setFonts(fonts)
+          setFontsLoading(false)
+        }
       })
       .catch(() => {
+        if (alive) setFontsLoading(false)
         /* editor shows the render error instead */
       })
     return () => {
       alive = false
     }
-  }, [])
+  }, [fontSetId])
 
   // Debounced render
   useEffect(() => {
@@ -157,6 +173,21 @@ export default function App() {
             </button>
           ))}
         </div>
+        <label className="fontset-picker">
+          <span className="fontset-label">Font</span>
+          <select
+            aria-label="Font set"
+            value={fontSetId}
+            onChange={(e) => setFontSetId(e.target.value)}
+          >
+            {FONT_SET_IDS.map((id) => (
+              <option key={id} value={id}>
+                {FONT_SET_LABELS[id] ?? id}
+              </option>
+            ))}
+          </select>
+          {fontsLoading && <span className="fontset-loading">loading…</span>}
+        </label>
         <input
           className="byline-input"
           placeholder="@yourhandle (optional)"

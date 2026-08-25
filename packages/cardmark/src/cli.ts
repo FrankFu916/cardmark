@@ -5,6 +5,7 @@ import { dirname, resolve } from 'node:path'
 import { renderCard, renderPng, loadFont } from './render.js'
 import { splitCards } from './parse.js'
 import { THEMES, SIZES } from './themes.js'
+import { FONT_SETS, FONT_SET_LABELS } from './fonts.js'
 import { VERSION } from './version.js'
 
 const args = process.argv.slice(2)
@@ -25,8 +26,11 @@ OPTIONS
       --split            split on --- into multiple cards (adds -1, -2... suffix)
   -p, --padding <level>  sm | md | lg | xl                (default: md)
   -F, --font <file>      font file to embed (repeatable: regular first, then bold)
+      --font-set <name>  ${Object.keys(FONT_SETS).join(' | ')}
+                         (default: from theme; overrides it)
   --list-themes          list built-in themes and exit
   --list-sizes           list size presets and exit
+  --list-font-sets       list font sets and exit
   -h, --help             show this help
   -v, --version          show version
 
@@ -34,6 +38,7 @@ EXAMPLES
   cardmark note.md --theme matcha --size og -o card.png
   cat README.md | cardmark --split --size story --out slides/
   curl -sL raw.md | cardmark -t noir --byline "@me" > card.svg
+  cardmark japanese.md --font-set japanese -f png -o card.png
 `
 }
 
@@ -52,8 +57,10 @@ async function main(): Promise<number> {
         split: { type: 'boolean', default: false },
         padding: { type: 'string', short: 'p', default: 'md' },
         font: { type: 'string', short: 'F', multiple: true },
+        'font-set': { type: 'string' },
         'list-themes': { type: 'boolean', default: false },
         'list-sizes': { type: 'boolean', default: false },
+        'list-font-sets': { type: 'boolean', default: false },
         help: { type: 'boolean', short: 'h', default: false },
         version: { type: 'boolean', short: 'v', default: false },
       },
@@ -86,6 +93,12 @@ async function main(): Promise<number> {
     }
     return 0
   }
+  if (opts['list-font-sets']) {
+    for (const [id, label] of Object.entries(FONT_SET_LABELS)) {
+      process.stdout.write(`${id.padEnd(16)} ${label}\n`)
+    }
+    return 0
+  }
 
   // Read input: file arg or stdin
   let input = ''
@@ -107,6 +120,14 @@ async function main(): Promise<number> {
   for (const f of opts.font ?? []) {
     fonts.push(await loadFont(f))
   }
+  let fontSet: string | undefined
+  if (opts['font-set']) {
+    if (!FONT_SETS[opts['font-set']]) {
+      process.stderr.write(`error: unknown font set "${opts['font-set']}" (see --list-font-sets)\n`)
+      return 2
+    }
+    fontSet = opts['font-set']
+  }
 
   const format = opts.format!.toLowerCase()
   if (format !== 'svg' && format !== 'png') {
@@ -125,6 +146,7 @@ async function main(): Promise<number> {
       byline: opts.byline,
       padding: (opts.padding as any) ?? 'md',
       fonts: fonts.length > 0 ? fonts : undefined,
+      fontSet,
     }
     let data: string | Buffer
     if (format === 'png') {

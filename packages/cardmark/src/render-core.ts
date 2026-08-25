@@ -246,8 +246,8 @@ function toSatoriFont(f: FontData) {
 
 /**
  * Render Markdown to SVG. Fonts come from options.fonts, or — when omitted —
- * from the theme's font set, downloaded from pinned CDNs and cached
- * (disk on Node, memory in the browser).
+ * from options.fontSet, then the theme's fontSet, downloaded from pinned CDNs
+ * and cached (disk on Node, memory in the browser).
  */
 export async function renderCard(
   markdown: string,
@@ -256,7 +256,8 @@ export async function renderCard(
   const theme = resolveTheme(options.theme)
   let fonts = options.fonts ?? []
   if (fonts.length === 0) {
-    fonts = await loadFontSet(theme.fontSet ?? 'default')
+    const setId = options.fontSet ?? theme.fontSet ?? 'default'
+    fonts = await loadFontSet(setId)
   }
   return cardSvg(markdown, options, fonts)
 }

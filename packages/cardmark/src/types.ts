@@ -58,6 +58,9 @@ export interface RenderOptions {
   hideFooter?: boolean
   /** Extra fonts to embed so satori can measure text. See loadFont(). */
   fonts?: LoadedFont[]
+  /** Built-in font set id (see FONT_SETS); overrides the theme's fontSet.
+   *  Ignored when `fonts` is provided explicitly. */
+  fontSet?: string
 }
 
 export interface LoadedFont {
